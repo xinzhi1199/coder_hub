@@ -1,4 +1,5 @@
 const errorTypes = require('../constants/error-types')
+const userService = require('../service/user.service')
 
 const verifyUser = async(ctx, next) => {
   // 获取用户名 密码
@@ -11,7 +12,11 @@ const verifyUser = async(ctx, next) => {
   }
 
   // 判断注册过没
-
+  const result = await userService.getUserByName(name);
+  if (result.length) {
+    const error = new Error(errorTypes.USER_ALREADY_EXISTS);
+    return ctx.app.emit('error', error, ctx);
+  }
 
   await next()
 }
