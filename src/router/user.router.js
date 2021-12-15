@@ -4,11 +4,11 @@ const {
 } = require('../controller/user.controller');
 const {
     verifyUser,
-    handdlePassword
+    handlePassword
 } = require('../middleware/user.middleware');
 
 const userRouter = new Router({ prefix: '/users' });
 
-userRouter.post('/', verifyUser, handdlePassword, create);
+userRouter.post('/', verifyUser, handlePassword, create);
 
 module.exports = userRouter;

@@ -22,7 +22,7 @@ const verifyUser = async(ctx, next) => {
   await next()
 }
 
-const handdlePassword = async(ctx, next) => {
+const handlePassword = async(ctx, next) => {
   const { password } = ctx.request.body;
   // 给用户密码加密
   ctx.request.body.password = md5Password(password);
@@ -31,5 +31,5 @@ const handdlePassword = async(ctx, next) => {
 
 module.exports = {
     verifyUser,
-    handdlePassword
+    handlePassword
 };
