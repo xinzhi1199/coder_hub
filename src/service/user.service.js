@@ -9,8 +9,6 @@ class UserService {
 
     const result = await connection.execute(statement, [name, password]);
 
-    console.log(result);
-
     return result[0];
 
     // return "创建用户成功"
