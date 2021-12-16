@@ -1,8 +1,14 @@
+const jwt = require('jsonwebtoken');
+
 const userService = require('../service/user.service');
 const errorTypes = require('../constants/error-types');
 const md5password = require('../utils/password-handle');
+const {
+  PUBLIC_KEY
+} = require('../app/config')
 
 const verifyLogin = async (ctx, next) => {
+    console.log("验证登录的middleware~");
     // 获取用户名 密码
     const { name, password } = ctx.request.body;
 
@@ -25,9 +31,36 @@ const verifyLogin = async (ctx, next) => {
       const error = new Error(errorTypes.PASSWORD_IS_INCORRECT);
       return ctx.app.emit('error', error, ctx);
     }
+
+    ctx.user = user;
     await next();
 };
 
+const verifyAuth = async (ctx, next) => {
+  console.log("验证授权的middleware~");
+  // 获取token
+  const authorization = ctx.headers.authorization;
+  if (!authorization) {
+    const error = new Error(errorTypes.UNZUTHORIZATION);
+    return ctx.app.emit('error', error, ctx);
+  }
+  const token = authorization.replace('Bearer ', '');
+
+  // 验证token
+  try {
+      const result = jwt.verify(token, PUBLIC_KEY, {
+          algorithms: ['RS256']
+      });
+      console.log('result', result);
+      ctx.user = result;
+      await next();
+  } catch (err) {
+      const error = new Error(errorTypes.UNZUTHORIZATION);
+      return ctx.app.emit('error', error, ctx);
+  }
+};
+
 module.exports = {
-    verifyLogin
+    verifyLogin,
+    verifyAuth
 };
