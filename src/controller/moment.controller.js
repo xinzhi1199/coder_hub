@@ -19,6 +19,15 @@ class MomentController {
         const result = await momentService.getMomentById(momentId);
         ctx.body = result;
     }
+
+    async list(ctx, next) {
+        // 获取参数
+        const { offset, size } = ctx.query;
+
+        // 执行数据库插入
+        const result = await momentService.getMomentList(offset, size);
+        ctx.body = result;
+    }
 }
 
 module.exports = new MomentController();
