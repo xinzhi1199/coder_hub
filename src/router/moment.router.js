@@ -9,7 +9,7 @@ const {
     update,
     remove
 } = require('../controller/moment.controller');
-const { verifyAuth } = require('../middleware/auth.middleware');
+const { verifyAuth, verifyAuthPermission } = require('../middleware/auth.middleware');
 
 // 发表动态
 momentRouter.post('/', verifyAuth, create);
@@ -22,7 +22,7 @@ momentRouter.get('/:momentId', detail);
 
 // 修改 、 删除动态  1.必须登录  2.用户具备权限
 // verifyPermission
-momentRouter.patch('/:momentId', verifyAuth, update);
-momentRouter.delete('/:momentId', verifyAuth, remove);
+momentRouter.patch('/:momentId', verifyAuth, verifyAuthPermission, update);
+momentRouter.delete('/:momentId', verifyAuth, verifyAuthPermission, remove);
 
 module.exports = momentRouter;
