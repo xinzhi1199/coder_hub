@@ -38,6 +38,14 @@ class MomentController {
         const result = await momentService.update(content, momentId);
         ctx.body = result;
     }
+
+    async remove(ctx, next) {
+        // 获取参数
+        const momentId = ctx.params.momentId;
+        // 执行数据库插入
+        const result = await momentService.remove(momentId);
+        ctx.body = result;
+    }
 }
 
 module.exports = new MomentController();

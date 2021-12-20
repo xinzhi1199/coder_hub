@@ -6,7 +6,8 @@ const {
     create,
     detail,
     list,
-    update
+    update,
+    remove
 } = require('../controller/moment.controller');
 const { verifyAuth } = require('../middleware/auth.middleware');
 
@@ -22,5 +23,6 @@ momentRouter.get('/:momentId', detail);
 // 修改 、 删除动态  1.必须登录  2.用户具备权限
 // verifyPermission
 momentRouter.patch('/:momentId', verifyAuth, update);
+momentRouter.delete('/:momentId', verifyAuth, remove);
 
 module.exports = momentRouter;
